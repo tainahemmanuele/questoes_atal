@@ -1,5 +1,6 @@
 package parque;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -8,57 +9,55 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 		String palavra1 = sc.nextLine();
-		int contador = 0;
 		while (palavra1 != "#") {
-			contador += 1;
 			String palavra2 = sc.nextLine();
-			String pNova = "";
-			int value = 0;
-			int[][] c = new int[palavra1.length() + 1][palavra2.length() + 1];
+			int max = 0;
+			String palavra = "";
+			int[][] palavras = new int[palavra1.length() + 1][palavra2.length() + 1];
 			for (int i = 0; i < palavra1.length(); i++) {
 				for (int j = 0; j < palavra2.length(); j++) {
 					if (i == 0 || j == 0) {
-						c[i][j] = 0;
-					} else if (palavra1.charAt(i - 1) == palavra2.charAt(j - 1)) {
-						c[i][j] = 1 + c[i - 1][j - 1];
-						;
-
+						palavras[i][j] = 0;
+					} else if (palavra1.charAt(i) == palavra2.charAt(j)) {
+						palavras[i][j] = 1 + palavras[i - 1][j - 1];
 					} else {
-						c[i][j] = Math.max(c[i - 1][j], c[i][j - 1]);
+						palavras[i][j] = Math.max(palavras[i][j - 1], palavras[i - 1][j]);
 					}
-					value = c[i][j];
+					max = palavras[i][j];
+
 				}
-
 			}
-
-			int index = (palavra1.length() + palavra2.length()) - value;
+			int value = (palavra1.length() + palavra2.length()) - max;
+			char[] palavraN = new char[value];
 			int k = 0;
-			int j = 0;
-			while (k < palavra1.length() && j < palavra2.length()) {
-				if (palavra1.charAt(k) == palavra2.charAt(j)) {
-					pNova += palavra1.charAt(k);
+			int value1 = palavra1.length()-1;
+			int value2 = palavra2.length()-1;
+			while (k < value) {
+				if (value1 > 0 && value2 > 0 && palavra1.charAt(value1) == palavra2.charAt(value2)) {
+					palavraN[k] = palavra1.charAt(value1);
+					value1--;
+					value2--;
 				} else {
-					pNova += palavra2.charAt(j);
-					pNova += palavra1.charAt(k);
+					if (value2 > 0 && palavras[value1][value2] == palavras[value1][value2-1]+1) {
+						palavraN[k] = palavra1.charAt(value1);
+						value1--;
+						
+					} else {
+						palavraN[k] = palavra2.charAt(value2);
+						value2--;
+						
+					}
 				}
+				System.out.println(Arrays.toString(palavraN));
 				k++;
-				j++;
-			}
 
-			if (k < palavra1.length() ) {
-				while (k < palavra1.length()) {
-					pNova += palavra1.charAt(k);
-					k++;
-				}
 			}
-			if (j < palavra2.length()) {
-				while (j < palavra2.length()) {
-					pNova += palavra2.charAt(j);
-					j++;
-				}
-			}
-			System.out.println(pNova);
+			System.out.println(max);
+			System.out.println(Arrays.toString(palavraN));
+			palavra1 = sc.nextLine();
+
 		}
+
 	}
 
 }
