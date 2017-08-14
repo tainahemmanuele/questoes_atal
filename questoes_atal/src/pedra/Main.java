@@ -32,7 +32,7 @@ public class Main {
 				max += tempo[fim[i]];
 
 			}
-			if (tempo[inicio[i]] == 0 && tempo[fim[i]] != 0 || tempo[inicio[i]] != 0 && tempo[fim[i]] != 0) {
+			else if (tempo[inicio[i]] == 0 && tempo[fim[i]] != 0 ) {
 				int maxC = 0;
 				int maxAtual = 0;
 				maxC = tempo[fim[i]];
